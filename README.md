@@ -1,13 +1,15 @@
 # cmchen-skill
 
-个人使用的 AI agent 技能（Skill）集合，目前包含三个独立技能包：写作风格生成、跨会话自我进化、代码安全审计。每个技能包都是自包含目录，放入 agent 的 skills 目录即可使用。
+个人使用的 AI agent 技能（Skill）集合，目前包含五个技能包：长文写作风格生成、交互式学习助手、博客文章转换、跨会话自我进化、代码安全审计。每个技能包都是自包含目录，放入 agent 的 skills 目录即可使用。
 
 ## 技能包一览
 
 | 技能包 | 版本 | 用途 |
 |--------|------|------|
 | `cmchen-writing/` | 3.1 | 按 cmchen 本人风格写长文（小说/日记/博客/笔记） |
-| `反思skill/` | 3.0 | 轻量自我进化框架：跨会话记忆与反思 |
+| `cmchen learning-skill/` | 5.0 | 大学生交互式学习助手：逐点教学+出题巩固+间隔复习 |
+| `cmchen's blog writing-skill/` | 1.2 | 把 PPT/PDF/讲义转换成符合博客渲染规范的 Markdown 文章 |
+| `self-evolving-agent/` | 3.0 | 轻量自我进化框架：跨会话记忆与反思 |
 | `security-scan/` | 1.1 | 基于 OpenAI codex-security 移植的安全审计工具包 |
 
 ---
@@ -45,7 +47,52 @@
 
 ---
 
-## 反思skill — 轻量自我进化框架（self-evolving-agent）
+## cmchen learning-skill — 交互式学习助手（v5）
+
+在对话里回合制教学的私人学习助手，目标一句话：**讲得懂、记得住、能做题**。v5 的教学设计吸收了 GitHub 上多个开源学习 skill 的做法（mattpocock/teach、Li-Evan/Bloom、learn-faster-kit、human-skill-tree 等），核心升级是：复习改用 teach-back 主动回忆、错题本引入错因分类与 leech 重写规则、间隔复习延伸到 90 天、新增费曼验收关卡。
+
+### 三种模式
+
+| 模式 | 触发 | 流程 |
+|------|------|------|
+| 新学习 | 「我要学 X」「学 PPT」 | 定 mission → 拆知识点分级 → 逐点六步教学 → 出题 → 写状态 |
+| 复习 | 「复习 X」「快考试了」 | 开场抽查上次弱点 → teach-back 考回忆 → 补讲 → 间隔跳级 |
+| 考前冲刺 | 「模考」「考前冲刺」 | 搜真题格式出卷 → 三遍答题法 → 分数报告 + 错因分析 |
+
+### 教学设计要点
+
+- **六步教学法**（死磕类知识点）：引入动机 → 大白话类比 → 严谨定义 → 例题（附题型识别特征与易错点）→ 按需联网 → 出题。记忆类知识点走快车道（记忆锚点+快问快答），不拖节奏
+- **出题铁律**：讲完必出题、等用户作答再判分、一题一考点、选择题选项等长防猜题
+- **答错处理**：先给提示让用户再试一次，两次失败才补讲+变式题；纠错用反问引导而非直说"错了"
+- **错因六分类**：知识缺口 / 粗心 / 读错题 / 时间不够 / 方法错 / 掉陷阱，补讲策略随错因变化
+- **leech 规则**：同题错 ≥3 次不再原样重考，重写换形式
+- **费曼验收**：mastery 2→3 的唯一通道——用户把 AI 当外行讲一遍且追问不倒；漏洞分"缺前置知识"与"没想透"对症处理
+- **间隔复习**：1/3/7/14/30/60/90 天节奏，复习用 teach-back 轮换（自己讲/教同学/一句话关键思想），连续答对可跳级
+- **??? 疑惑标注**：用户在材料或讲解中标 `???`，优先级高于答错记录
+- **决策级学习日志**：只记四种事件——确证掌握 / 披露已知 / 纠正误解 / 目标漂移，不记流水账
+- **防幻觉**：链接必须来自真实检索结果，检索失败宁可不给链接只讲概念；判断用户基础只用其亲口确证的内容
+
+### 状态与工具
+
+- 状态文件：per-course JSON（mission、knowledge_points、weak_points、wrong_bank、learning_log、stats），路径 `state/<课程名>.json`
+- 提取脚本：`scripts/学习.py` 把目录里的 PDF/PPTX/PPT 批量提取成 JSON 供学习
+- 结课关卡：全部知识点学完后插入"评估篇"（纯复盘不加新内容），通过才结课
+
+---
+
+## cmchen's blog writing-skill — 博客文章转换
+
+把 PPT、PDF、讲义、教材截图等学习素材自动转换为符合博客渲染要求的 Markdown 文章：识别核心概念、公式推导、经典例题，按博客的 frontmatter 规范、公式语法、标题层级输出。核心原则是"不带图"——所有图片内容用文字和公式准确描述。
+
+| 文件 | 用途 |
+|------|------|
+| `skill指令.md` | 核心指令：博客渲染规范 + 转换流程 + 写作风格指南 |
+| `示例输出.md` | 示例演示：戴维南定理从 PPT 到博客文章的转换效果 |
+| `现有例子.md` | 现有博客文章参考 |
+
+---
+
+## self-evolving-agent — 轻量自我进化框架
 
 基于文件读写实现跨会话记忆与反思：每次会话启动时加载记忆，仅在反思触发时写入。只做必要记录，不做过度积累。
 
@@ -114,21 +161,29 @@
 
 ```
 cmchen-skill/
-├── README.md                  # 本文件
-├── .gitignore                 # 排除 __pycache__ 与 .codex-scan/ 产物
-├── cmchen-writing/            # 写作风格生成器 v3.1
-│   ├── SKILL.md               # 主规则：四轨系统、指纹、技法、自检
-│   └── EXAMPLES.md            # 示例库：原文摘录与逐段解析
-├── 反思skill/                 # 自我进化框架 v3.0
-│   ├── SKILL.md               # 主规则：触发条件、记忆规范、多 Agent 适配
-│   └── memory/                # 运行时记忆（profile/lessons/self_model/reflections/skills）
-└── security-scan/             # 安全审计工具包
-    ├── SKILL.md               # 主规则：模式路由、五阶段流程、铁律
-    ├── README.md              # 移植说明与全流程文档
-    ├── references/            # 各阶段契约与格式规范
-    ├── schemas/               # JSON Schema 契约
-    ├── scripts/               # 扫描流水线工具脚本
-    └── skills/                # 五个子技能（deep/diff/fix/hardening/writeup）
+├── README.md                          # 本文件
+├── .gitignore                         # 排除 __pycache__ 与 .codex-scan/ 产物
+├── cmchen-writing/                    # 写作风格生成器 v3.1
+│   ├── SKILL.md                       # 主规则：四轨系统、指纹、技法、自检
+│   └── EXAMPLES.md                    # 示例库：原文摘录与逐段解析
+├── cmchen learning-skill/             # 交互式学习助手 v5.0
+│   ├── SKILL.md                       # 主规则：三模式、六步教学、复习排期、状态 schema
+│   ├── scripts/学习.py                # PDF/PPTX/PPT 内容提取工具
+│   └── agents/openai.yaml             # agent 接口定义
+├── cmchen's blog writing-skill/       # 博客文章转换
+│   ├── skill指令.md                   # 核心指令：渲染规范+转换流程
+│   ├── 示例输出.md                    # 转换效果示例
+│   └── README.md                      # 使用说明
+├── self-evolving-agent/               # 自我进化框架 v3.0
+│   ├── SKILL.md                       # 主规则：触发条件、记忆规范、多 Agent 适配
+│   └── memory/                        # 运行时记忆（profile/lessons/self_model/reflections/skills）
+└── security-scan/                     # 安全审计工具包 v1.1
+    ├── SKILL.md                       # 主规则：模式路由、五阶段流程、铁律
+    ├── README.md                      # 移植说明与全流程文档
+    ├── references/                    # 各阶段契约与格式规范
+    ├── schemas/                       # JSON Schema 契约
+    ├── scripts/                       # 扫描流水线工具脚本
+    └── skills/                        # 五个子技能（deep/diff/fix/hardening/writeup）
 ```
 
 ## 使用方式
@@ -136,11 +191,13 @@ cmchen-skill/
 每个技能包即一个 Skill 目录，将对应目录放入 agent 的 skills 目录（如 `~/.claude/skills/`）即可按各自触发词调用：
 
 1. **cmchen-writing**：写作场景直接触发，无需额外配置
-2. **反思skill**：首次使用前确认 memory/ 为空模板；运行中由 `/reflect` 等指令驱动写入
-3. **security-scan**：需要 Python 3 环境运行 scripts/ 下的工具；扫描产物输出到 `.codex-scan/`（已在 .gitignore 排除）
+2. **cmchen learning-skill**：需要 Python 3 与 PyPDF2/python-pptx（文件提取用）；状态文件自动创建于 `state/` 目录
+3. **cmchen's blog writing-skill**：发送素材（PPT/PDF/讲义文字）即按规范转换
+4. **self-evolving-agent**：首次使用前确认 memory/ 为空模板；运行中由 `/reflect` 等指令驱动写入
+5. **security-scan**：需要 Python 3 环境运行 scripts/ 下的工具；扫描产物输出到 `.codex-scan/`（已在 .gitignore 排除）
 
 ## 维护约定
 
 - 版本号记录在各 SKILL.md 的 frontmatter `version` 字段，与根 README 表格保持一致
-- 反思skill 的 memory/ 为运行时数据，按需更新，不纳入版本管理以外的分发逻辑
+- self-evolving-agent 的 memory/ 为运行时数据，按需更新，不纳入版本管理以外的分发逻辑
 - 新技能包入仓时：目录自包含（SKILL.md + 必要资源）、根 README 增加一览行与章节
