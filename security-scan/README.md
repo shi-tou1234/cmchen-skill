@@ -182,6 +182,15 @@ security-scan/
 
 ---
 
+## 版本记录
+
+| 版本 | 说明 |
+|------|------|
+| 1.0 | 完全初始化版本，仅支持全盘扫描（standard 模式） |
+| 1.1 | 扩展为六种能力：在标准扫描基础上新增 diff 审查、深度扫描、漏洞修复、加固方案、漏洞报告 |
+
+---
+
 ## 来源
 
 本 Skill 移植自 OpenAI 开源的 [codex-security](https://github.com/openai/codex) 项目，将其安全审计方法论（标准扫描 + diff 审查 + 深度扫描 + 修复 + 加固 + 漏洞报告）适配到 Claude Code 的 Skill 体系中。

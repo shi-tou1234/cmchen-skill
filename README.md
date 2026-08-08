@@ -8,7 +8,7 @@
 |--------|------|------|
 | `cmchen-writing/` | 3.1 | 按 cmchen 本人风格写长文（小说/日记/博客/笔记） |
 | `反思skill/` | 3.0 | 轻量自我进化框架：跨会话记忆与反思 |
-| `security-scan/` | — | 基于 OpenAI codex-security 移植的安全审计工具包 |
+| `security-scan/` | 1.1 | 基于 OpenAI codex-security 移植的安全审计工具包 |
 
 ---
 
