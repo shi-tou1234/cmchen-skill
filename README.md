@@ -1,45 +1,45 @@
 # cmchen-skill
 
-个人使用的 AI agent 技能集合。
+个人使用的 AI agent 技能（Skill）集合，按用途分为三个独立技能包。
 
-## 反思skill
+## 技能包
 
-一个轻量自我进化框架，基于文件读写实现跨会话记忆与反思。每次会话加载历史记忆，在反思触发时写入——只做必要记录，不做过度积累。
+### cmchen-writing（v3.1）
 
-**特性：**
+个人写作风格生成器。基于博客全部 84 篇文章的全量语料分析重建，核心是**四轨声音系统**：
+
+| 轨道 | 用途 |
+|------|------|
+| A1 冷峻小说腔 | 虚构小说、叙事写作 |
+| A2 温热日记腔 | 日记体情感记录 |
+| B 冷面博客腔 | 技术随笔、踩坑记录、工具测评 |
+| C 学习笔记腔 | 教科书骨架 + 讲课口语的笔记 |
+
+配套 15 个签名技法、口语词库与四层自检流程，写作时拿不准的句子可到 EXAMPLES.md 逐段比对。
+
+### 反思skill（self-evolving-agent v3.0）
+
+轻量自我进化框架，基于文件读写实现跨会话记忆与反思。每次会话加载历史记忆，仅在反思触发时写入——只做必要记录，不做过度积累。
+
 - 用户画像（profile）——记录偏好与技术背景
 - 经验教训（lessons）——沉淀可复用工作模式
 - 自我模型（self_model）——记录能力边界与易错点
 - 技能进化（skills）——从教训中提取可复用的技能片段
+- 控制指令：`/reflect`、`/profile`、`/skills`、`/forget <关键词>`
 
-**适用场景：** 任何需要跨会话记忆、持续改进的 agent 对话。
+### security-scan（codex-security-scan）
 
-### 目录结构
+基于 OpenAI 开源的 [codex-security](https://github.com/openai/codex) 项目移植的自动化安全审计工具包，在 Claude Code 环境中运行，提供 6 种能力：标准扫描、Diff 审查、深度扫描、漏洞修复、加固方案、漏洞报告。整个过程只读扫描，不修改代码，无需云登录或第三方后端。
+
+## 目录结构
 
 ```
-反思skill/
-├── SKILL.md                 # 主规则：触发条件、写书规范、防作弊、多 agent 并行
-├── memory/
-│   ├── profile.md           # 用户画像
-│   ├── self_model.md        # 自我模型（强项、弱项、自我提醒）
-│   ├── lessons.md           # 经验教训
-│   ├── session.md           # 当前会话残留
-│   ├── reflections/         # 反思日志（按日期）
-│   └── skills/              # 进化出的技能片段
+cmchen-skill/
+├── cmchen-writing/        # 写作风格生成器（SKILL.md + EXAMPLES.md）
+├── 反思skill/             # 自我进化框架（README.md + 反思skill具体描述/）
+└── security-scan/         # 安全审计工具包（SKILL.md + references/schemas/scripts/skills）
 ```
 
-### 控制指令
+## 使用方式
 
-| 指令 | 作用 |
-|------|------|
-| `/reflect` | 触发反思流程 |
-| `/profile` | 查看用户画像 |
-| `/skills` | 列出已进化技能 |
-| `/forget <关键词>` | 删除匹配的记忆条目 |
-
-### 核心原则
-
-1. 默认不写文件——仅反思触发或用户纠正时才操作
-2. 隐私红线——密码、token、私钥绝不写入记忆
-3. 用户说了算——纠正立即更新，不与用户争辩
-4. 少即是多——宁可少记也不记错
+每个技能包即一个 Skill 目录，将对应目录放入 agent 的 skills 目录（如 `~/.claude/skills/`）后即可按各自的触发词调用。具体安装方式与调用约定见各技能包内的 README/SKILL.md。

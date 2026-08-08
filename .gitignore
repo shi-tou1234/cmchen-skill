@@ -1,0 +1,6 @@
+# Python 编译产物
+__pycache__/
+*.pyc
+
+# 扫描产物（不纳入版本库）
+.codex-scan/
