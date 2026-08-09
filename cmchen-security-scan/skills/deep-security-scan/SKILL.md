@@ -7,7 +7,7 @@ description: 对整仓或指定路径做深度、穷尽、多轮、降低方差�
 
 深度扫描**重复普通发现工作流来降低方差**，语义合并结果，然后对合并后的候选**跑一次**普通验证、攻击路径分析与报告。核心区别只在发现阶段：多个独立发现子代理各自完整地过一遍"威胁建模 + 逐文件发现"，结果合并后再走单次的标准收尾。
 
-先定位本技能所在目录（`<SKILL_DIR>`，即 bundle 内 `skills/deep-security-scan/`）。共享的 scripts 与 references 在 `<BUNDLE_ROOT>` = `<SKILL_DIR>/../..`。标准扫描的阶段纪律与铁律见顶层 `SKILL.md`（security-scan），这里只补充深度模式特有的规则。
+先定位本技能所在目录（`<SKILL_DIR>`，即 bundle 内 `skills/deep-security-scan/`）。共享的 scripts 与 references 在 `<BUNDLE_ROOT>` = `<SKILL_DIR>/../..`。标准扫描的阶段纪律与铁律见顶层 `SKILL.md`（cmchen-security-scan），这里只补充深度模式特有的规则。
 
 ---
 

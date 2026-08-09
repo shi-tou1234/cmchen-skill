@@ -1,5 +1,5 @@
 ﻿---
-name: "self-evolving-agent"
+name: "cmchen-self-evolving-agent"
 description: |
   Self-improving agent with lightweight reflection, user profiling, cross-session memory and skill evolution.
   Use when the agent should learn from interactions and improve over time, or when the user mentions

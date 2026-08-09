@@ -1,5 +1,5 @@
 ---
-name: codex-security-scan
+name: cmchen-security-scan
 version: 1.1.0
 description: 对仓库、指定目录/包或代码 diff 运行系统化、保留证据的安全审计，并支持修复、加固与漏洞报告写作。当用户要求扫描安全漏洞、做安全审查/审计、查找漏洞或具有安全影响的 bug、检查 PR/commit/branch diff 的安全问题、要求深度/多轮/彻底扫描、要求修复某个漏洞并验证、要求结构性安全加固方案、或要求把漏洞笔记/PoC 写成漏洞报告时使用。执行从 OpenAI Codex Security 移植并适配 Claude Code 的五阶段算法：威胁建模 → 漏洞发现 → 验证 → 攻击路径分析 → 密封报告（report.md + SARIF）；可按需路由到 diff 审查 / 深度扫描 / 修复 / 加固 / 漏洞报告子技能。无需任何云登录或第三方后端。
 ---
@@ -8,7 +8,7 @@ description: 对仓库、指定目录/包或代码 diff 运行系统化、保留
 
 你正在执行一次纪律严格、保留证据的安全审计。**先做模式路由**（见下），确定用户请求属于哪种能力，再按对应入口执行。**按顺序**推进各个阶段；每个阶段都有严格的契约，**不得越界到下一阶段**。在 `<repo>/.codex-scan/`（或用户指定的输出路径）下创建工作目录，并把每个阶段的产物放在那里。**不要修改仓库的源代码文件。**
 
-先定位本技能所在目录（`<SKILL_DIR>`）：依次查找 `~/.claude/skills/codex-security-scan/` 和 `.claude/skills/codex-security-scan/`。references、scripts、schemas 都在该目录下，子技能在 `<SKILL_DIR>/skills/` 下。
+先定位本技能所在目录（`<SKILL_DIR>`）：依次查找 `~/.claude/skills/cmchen-security-scan/` 和 `.claude/skills/cmchen-security-scan/`。references、scripts、schemas 都在该目录下，子技能在 `<SKILL_DIR>/skills/` 下。
 
 ## 模式路由（Mode Routing）
 

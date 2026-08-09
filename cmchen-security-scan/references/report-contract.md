@@ -13,7 +13,7 @@ python <SKILL_DIR>/scripts/build_scan_bundle.py \
 
 输出在 `<scan_dir>/final/` 下：`scan-manifest.json`（密封）、`findings.json`、`coverage.json`、`report.md`、`exports/results.sarif`。可安全重跑；若定稿脚本拒绝 bundle，修正指出的字段后重跑（有界重试，不要循环）。
 
-`<SKILL_DIR>` 是本技能所在目录——通常是 `~/.claude/skills/codex-security-scan/`（若是项目级则是 `.claude/skills/codex-security-scan/`）。通过查找 `scripts/finalize_scan_contract.py` 来定位。
+`<SKILL_DIR>` 是本技能所在目录——通常是 `~/.claude/skills/cmchen-security-scan/`（若是项目级则是 `.claude/skills/cmchen-security-scan/`）。通过查找 `scripts/finalize_scan_contract.py` 来定位。
 
 ## bundle.json 结构
 

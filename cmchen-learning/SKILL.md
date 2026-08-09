@@ -1,5 +1,5 @@
 ---
-name: 学习
+name: cmchen-learning
 version: 5.0.0
 description: >
   大学生交互式学习助手：读你给的 PPT/PDF/链接/粘贴文本或纯主题，把内容拆成知识点逐个教，

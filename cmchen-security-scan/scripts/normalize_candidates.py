@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Validate and combine security-scan candidates into deterministic JSONL."""
+"""Validate and combine cmchen-security-scan candidates into deterministic JSONL."""
 
 from __future__ import annotations
 

@@ -1,11 +1,11 @@
 ---
 name: security-diff-scan
-description: 对 Git-backed 变更集做安全回归审查。当用户要求审查 pull request、commit、branch diff、工作区补丁或其它 Git 变更集的安全问题时使用。不要用它做整仓扫描（那是 security-scan）或深度多轮扫描（那是 deep-security-scan）。
+description: 对 Git-backed 变更集做安全回归审查。当用户要求审查 pull request、commit、branch diff、工作区补丁或其它 Git 变更集的安全问题时使用。不要用它做整仓扫描（那是 cmchen-security-scan）或深度多轮扫描（那是 deep-security-scan）。
 ---
 
 # 安全 Diff 扫描（Security Diff Scan）
 
-你正在审查一个 Git-backed 变更集的安全回归。保持阶段分离，产出最终 Markdown 报告。方法与 `security-scan`（顶层 SKILL.md 的标准扫描）同源，只是**范围被 diff 限定**：威胁模型仍是仓库级，发现/验证/攻击路径聚焦在改动代码及其支撑文件上。
+你正在审查一个 Git-backed 变更集的安全回归。保持阶段分离，产出最终 Markdown 报告。方法与 `cmchen-security-scan`（顶层 SKILL.md 的标准扫描）同源，只是**范围被 diff 限定**：威胁模型仍是仓库级，发现/验证/攻击路径聚焦在改动代码及其支撑文件上。
 
 先定位本技能所在目录（`<SKILL_DIR>`，即 bundle 内 `skills/security-diff-scan/`）。共享的 scripts 与 references 在 `<BUNDLE_ROOT>` = `<SKILL_DIR>/../..`。
 

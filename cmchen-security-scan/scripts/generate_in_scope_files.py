@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Generate the shared, deterministically ordered security-scan file inventory."""
+"""Generate the shared, deterministically ordered cmchen-security-scan file inventory."""
 
 from __future__ import annotations
 

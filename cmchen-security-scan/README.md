@@ -1,4 +1,4 @@
-# security-scan
+# cmchen-security-scan
 
 > Claude Code 安全审计 Skill，基于 OpenAI 开源的 [codex-security](https://github.com/openai/codex) 项目移植而来。
 
@@ -43,7 +43,7 @@
 ## 目录结构
 
 ```
-security-scan/
+cmchen-security-scan/
 │
 ├── SKILL.md                          ← 技能主入口：多模式路由 + 标准扫描 5 阶段流程
 │
@@ -88,7 +88,7 @@ security-scan/
     └── __pycache__/                  ← Python 缓存（自动生成）
 ```
 
-> **安装提示**：整个 `security-scan/` 目录作为一个 bundle 复制到 `~/.claude/skills/codex-security-scan/`（或项目内 `.claude/skills/codex-security-scan/`）。5 个子技能共享顶层的 references/scripts/schemas，**请整体复制**，不要只拷单个子技能目录。
+> **安装提示**：整个 `cmchen-security-scan/` 目录作为一个 bundle 复制到 `~/.claude/skills/cmchen-security-scan/`（或项目内 `.claude/skills/cmchen-security-scan/`）。5 个子技能共享顶层的 references/scripts/schemas，**请整体复制**，不要只拷单个子技能目录。
 
 ---
 
