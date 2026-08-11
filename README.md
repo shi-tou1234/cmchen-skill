@@ -1,4 +1,4 @@
-# cmchen-skill
+﻿# cmchen-skill
 
 个人使用的 AI agent 技能（Skill）集合，基于 [Claude Code](https://docs.anthropic.com/en/docs/claude-code) 的 Skill 机制构建。每个技能包都是自包含目录，复制到 agent 的 skills 目录即可按触发词调用。
 
@@ -11,6 +11,7 @@
 | `cmchen-blog-writing/` | 1.2 | PPT/PDF/讲义 → 博客 Markdown 文章 |
 | `cmchen-self-evolving-agent/` | 3.0 | 跨会话记忆与反思，轻量自我进化 |
 | `cmchen-security-scan/` | 1.1 | 自动化安全审计，只读扫描，无云依赖 |
+| `cmchen-agent-thinking-guidance/` | 1.0 | 三轨一门协议：像 Claude 一样思考与做事 |
 
 ---
 
@@ -431,6 +432,99 @@ cmchen-security-scan/
 
 ---
 
+## cmchen-agent-thinking-guidance — Agent 思考引导协议
+
+让**任意 agent** 模仿 Claude（Fable 5）的**思考过程与工具调用**行为规范——以**三轨一门协议**融合三个来源：Fable5res 的思考腔调、fable-method 的做事纪律、Qwen3 蒸馏的 `<think>` 结构。
+
+**任何能读取 markdown 的 agent**（Claude Code、Cursor、Cline、Windsurf、Continue、Codex、自定义 agent…）都能加载使用。
+
+**核心主张**：一个遵守流程的中等模型，胜过自由发挥的强模型——质量在结构、证据与诚实，不在模型本身。
+
+### 三轨一门（原创）
+
+| 轨 | 蒸馏源头 | 每步产出 | 核心问题 |
+|:---|:---|:---|:---|
+| **行轨 Act** | fable-method 七步循环 + Fable5res 编码/调试/架构技能 | 可验证的改动或发现 | 做了什么，按什么顺序 |
+| **思轨 Think** | Qwen3 权重蒸馏 + Fable5res 语言签名 | 结构化思维链 | 怎么想的，够不够格当训练数据 |
+| **审轨 Audit** | fable-method 门禁 + fable-judge 对抗自审 | 门禁痕迹 + 自审判定 | 凭什么相信它 |
+
+**一门**——可蒸馏门：三轨的交汇点。思轨的思维链必须达到"可蒸馏"标准——结构化到足以当一条 SFT 训练样本。不够格，不准进入行轨。
+
+### 来源与许可
+
+| 来源 | 贡献 | 许可 |
+|:---|:---|:---|
+| [Fable5res](https://github.com/ahmdd4vd/Fable5res)（4,665 条真实思维链统计，31/31 验证通过） | 思考**腔调**：自然段推理、自我纠正、验证词汇、工具节奏 | AGPL-3.0 |
+| [fable-method](https://github.com/Sahir619/fable-method)（15 轮对抗评测、260+ 次运行） | 做事**纪律**：七步流程、硬门禁、对抗自审、诚实报告 | MIT |
+| [fable5-qwen3-thinking-distillation](https://github.com/Dhamodharan2006/fable5-qwen3-thinking-distillation)（4,659 条全序列 SFT） | 推理**内化**：`<think>` 块结构、可选微调路线 | MIT |
+
+数据源：[Fable-5-traces](https://huggingface.co/Kuberwastaken)（AGPL-3.0）。本 skill 派生自 AGPL 作品，**整体按 AGPL-3.0 发布**（见本目录 `LICENSE`）；上游 Fable5res 完整源码保留在 `cmchen-agent-thinking-guidance/sources/fable5res/` 以满足 AGPL copyleft 义务——安装和使用时**无需查看**该目录。
+
+### 核心机制
+
+**七步循环（行轨）**：分类 → 定义完成 → 证据 → 决策 → 行动 → 验证 → 报告。每步有门禁触发，惊喜可重路由。
+
+**可蒸馏思维链（思轨）**：以 `Alright,` 开头、`because/since/therefore/thus` 连接、主动自我纠正（`Actually,`/`However,`）、结尾预测可观察结果、内联验证词（`should be`/`to verify`/`to ensure`）。五条标准缺一不可——但门量形式更量推理，第一遍就对、无需修正时不伪造自修正。
+
+**硬门禁（审轨）**：共 **8 门**（平凡/适配/分类/意图/召回/授权/双生/工件）+ 3 条硬上限（3 次失败/外部阻塞/取证轮次）。会进报告的强制记录线：`INTENT`（意图核验）、`AUTH`（授权检查，拿不到原话写 `PENDING`）、`TWINS`（孪生对照）、`RECALL`（记忆门，标 `memory, unverified`）。
+
+**对抗自审**：交付前把自己当成对抗式法官——每个声称的验证都重跑，猎捕欺诈（被削弱的测试、虚假完成、越界改动、未授权动作），判决 `VERIFIED` / `VERIFIED WITH CAVEATS` / `REFUTED`。
+
+### 文件结构
+
+```
+cmchen-agent-thinking-guidance/
+├── SKILL.md                          # 主入口：三轨一门协议、七步循环、门禁触发（加载这一个就够）
+├── LICENSE                           # AGPL-3.0（因融合 AGPL 来源）
+├── references/                       # 深度参考，按需查阅，不要一次全读
+│   ├── index.md                      # 参考文件导航
+│   ├── voice-and-think.md            # 思轨：语言签名与可蒸馏思维链【含原创可蒸馏门】
+│   ├── method.md                     # 行轨：七步循环详解
+│   ├── gates.md                      # 审轨：八门与三条硬上限
+│   ├── judge.md                      # 审轨：对抗式自审协议
+│   ├── loop.md                       # 编排：三轨并行执行流
+│   ├── flowcharts.md                 # 全部流程图（含原创三轨交汇图）
+│   ├── failure-modes.md              # 18 种失败模式
+│   ├── examples.md                   # 六种任务形态示例
+│   ├── distillation.md               # 权重蒸馏路线
+│   ├── training-notes.md             # 训练笔记与工程教训
+│   ├── coding.md                     # 场景：编码流程
+│   ├── debugging.md                  # 场景：调试流程
+│   ├── architecture.md               # 场景：架构设计流程
+│   ├── verification.md               # 场景：验证词汇层级
+│   └── domains/                      # 10 个领域适配器
+│       ├── TEMPLATE.md               # 领域适配器模板
+│       ├── coding.md                 # 编程领域
+│       ├── research.md               # 调研领域
+│       ├── data-analysis.md          # 数据分析领域
+│       ├── marketing.md              # 营销领域
+│       ├── devops.md                 # DevOps 领域
+│       ├── design-ux.md              # 设计/UX 领域
+│       ├── business-ops.md           # 企业运营领域
+│       ├── finance.md                # 财务领域
+│       └── legal-compliance.md       # 法务合规领域
+└── sources/                          # AGPL 源码保留（仅合规，安装无需查看）
+    └── fable5res/                    # Fable5res 完整源码（AGPL-3.0，15 个文件）
+```
+
+### 安装到任意 agent
+
+Skill 就是一个自包含目录，复制到对应目录即可：
+
+- **Claude Code**：`cp -r cmchen-agent-thinking-guidance ~/.claude/skills/`（或项目级 `.claude/skills/`）
+- **Cursor**：`<项目>/.cursor/skills/` · **Cline**：`<项目>/.cline/skills/` · **Windsurf**：`<项目>/.windsurf/skills/`
+- **通用 / 自定义 agent**：把 `SKILL.md` 的内容贴进系统提示词，或按你的 agent 的 skills 目录约定放置
+
+安装后 agent 会依据 `SKILL.md` 的 frontmatter `description` 自动识别触发场景。日常任务**只需加载 `SKILL.md`**，references/ 按需查阅。
+
+### 触发词
+
+编码、调试、架构、计划、验证、审判、推理、工具使用、多步骤、帮我做、帮我查、帮我分析、帮我设计；或丢来一个复杂任务说"按流程来"。
+
+**不适用**：纯闲聊、单步查询、无技术含量的格式转换。
+
+---
+
 ## 使用方式
 
 每个技能包即一个 Skill 目录，将对应目录放入 agent 的 skills 目录（如 `~/.claude/skills/`）即可按各自触发词调用：
@@ -440,9 +534,17 @@ cmchen-security-scan/
 3. **cmchen-blog-writing**：发送素材（PPT/PDF/讲义文字）即按规范转换
 4. **cmchen-self-evolving-agent**：首次使用前确认 `memory/` 为空模板；由 `/reflect` 等指令驱动
 5. **cmchen-security-scan**：需要 Python 3 环境运行 scripts/ 下的工具；扫描产物输出到 `.codex-scan/`（已 .gitignore 排除）
+6. **cmchen-agent-thinking-guidance**：复制目录到 agent 的 skills 目录即可；无外部依赖，纯 markdown 协议；可选进阶路径需 Qwen3-4B + Unsloth 微调
 
 ## 维护约定
 
 - 版本号记录在各 SKILL.md 的 frontmatter `version` 字段，与根 README 表格保持一致
 - 新技能包入仓时：目录自包含（SKILL.md + 必要资源）、根 README 增加一览行与章节
 - cmchen-self-evolving-agent 的 memory/ 为运行时数据，按需更新
+
+## 许可
+
+本仓库整体按 **GPL-3.0** 发布（见根目录 `LICENSE`）。
+
+- `cmchen-agent-thinking-guidance/` 因融合 AGPL-3.0 来源（Fable5res），该子目录**单独按 AGPL-3.0** 发布（见其目录内 `LICENSE`），上游源码保留于 `cmchen-agent-thinking-guidance/sources/fable5res/`。
+- 各技能包内若有自身许可声明（LICENSE 文件或文件头标注），以该声明为准。
