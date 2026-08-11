@@ -458,7 +458,7 @@ cmchen-security-scan/
 | [fable-method](https://github.com/Sahir619/fable-method)（15 轮对抗评测、260+ 次运行） | 做事**纪律**：七步流程、硬门禁、对抗自审、诚实报告 | MIT |
 | [fable5-qwen3-thinking-distillation](https://github.com/Dhamodharan2006/fable5-qwen3-thinking-distillation)（4,659 条全序列 SFT） | 推理**内化**：`<think>` 块结构、可选微调路线 | MIT |
 
-数据源：[Fable-5-traces](https://huggingface.co/Kuberwastaken)（AGPL-3.0）。本 skill 派生自 AGPL 作品，**整体按 AGPL-3.0 发布**（见本目录 `LICENSE`）；上游 Fable5res 完整源码保留在 `cmchen-agent-thinking-guidance/sources/fable5res/` 以满足 AGPL copyleft 义务——安装和使用时**无需查看**该目录。
+数据源：[Fable-5-traces](https://huggingface.co/Kuberwastaken)（AGPL-3.0）。本 skill 派生自 AGPL 作品，**整体按 GPL-3.0 发布**（见本目录 `LICENSE`）；上游 Fable5res 完整源码保留在 `cmchen-agent-thinking-guidance/sources/fable5res/` 以满足 AGPL copyleft 义务——安装和使用时**无需查看**该目录。
 
 ### 核心机制
 
