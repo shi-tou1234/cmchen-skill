@@ -531,7 +531,7 @@ Skill 就是一个自包含目录，复制到对应目录即可：
 
 **大多数场景不需要适配版**——直接把上面的技能包目录复制到你的 agent 的 skills 目录（如 `~/.claude/skills/`）就能按触发词调用，具体见「使用方式」。
 
-`dsh适配/` 是面向 DeepSeek Harness（DSH，基于 Cordis）的分发工程：把本仓库的六个技能连同本地其他技能（aihot、hv-analysis、khazix-writer、leader、storage-analyzer）一起打成 npm 包，DSH 环境通过 bundle 机制注册为技能提供方。只有你的 agent 跑在 DeepSeek Harness 上时才需要它。
+`dsh适配/` 是面向 DeepSeek Harness（DSH，基于 Cordis）的分发工程：把本仓库的六个技能一起打成 npm 包，DSH 环境通过 bundle 机制注册为技能提供方。只有你的 agent 跑在 DeepSeek Harness 上时才需要它。
 
 ### 打包内容
 
