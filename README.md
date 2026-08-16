@@ -13,6 +13,8 @@
 | `cmchen-security-scan/` | 1.1 | 自动化安全审计，只读扫描，无云依赖 |
 | `cmchen-agent-thinking-guidance/` | 1.0 | 三轨一门协议：像 Claude 一样思考与做事 |
 
+> 另有 `dsh适配/` 打包工程，把这些技能适配成 DeepSeek Harness 可安装的 bundle——多数场景直接用技能包目录即可，见下文「DSH 适配版」。
+
 ---
 
 ## cmchen-writing — 写作风格生成器
@@ -525,6 +527,35 @@ Skill 就是一个自包含目录，复制到对应目录即可：
 
 ---
 
+## DSH 适配版（dsh适配/）
+
+**大多数场景不需要适配版**——直接把上面的技能包目录复制到你的 agent 的 skills 目录（如 `~/.claude/skills/`）就能按触发词调用，具体见「使用方式」。
+
+`dsh适配/` 是面向 DeepSeek Harness（DSH，基于 Cordis）的分发工程：把本仓库的六个技能连同本地其他技能（aihot、hv-analysis、khazix-writer、leader、storage-analyzer）一起打成 npm 包，DSH 环境通过 bundle 机制注册为技能提供方。只有你的 agent 跑在 DeepSeek Harness 上时才需要它。
+
+### 打包内容
+
+- npm 包 `cmchen-skills@0.1.0`，入口 `index.js` 把 `skills/` 下的 11 个技能注册为 Cordis skills provider
+- `skills.metadata.json` 存技能名与描述，由 `extract-descriptions.mjs` 从各 `SKILL.md` 的 frontmatter 自动生成
+- `cordis.patch.yml` 声明 bundle patch，供 DSH 安装时打补丁
+
+### 构建与安装
+
+```bash
+cd dsh适配
+npm run extract   # 改过任何 SKILL.md 后重新生成 skills.metadata.json
+npm pack          # 打出 tarball
+```
+
+将生成的 tarball 按 DSH 的 bundle 安装流程装进 DeepSeek Harness 环境即可。
+
+### 注意
+
+- `dsh适配/skills/` 下的 `cmchen-*` 是从本仓库根目录同步的副本，改技能后记得同步（见「维护约定」）
+- aihot、hv-analysis、khazix-writer、leader、storage-analyzer 五个技能不在本仓库内，来自本机技能目录
+
+---
+
 ## 使用方式
 
 每个技能包即一个 Skill 目录，将对应目录放入 agent 的 skills 目录（如 `~/.claude/skills/`）即可按各自触发词调用：
@@ -540,6 +571,7 @@ Skill 就是一个自包含目录，复制到对应目录即可：
 
 - 版本号记录在各 SKILL.md 的 frontmatter `version` 字段，与根 README 表格保持一致
 - 新技能包入仓时：目录自包含（SKILL.md + 必要资源）、根 README 增加一览行与章节
+- 改动 `cmchen-*/` 技能后同步 `dsh适配/skills/` 下的副本；描述有变时重跑 `npm run extract` 刷新 `skills.metadata.json`
 - cmchen-self-evolving-agent 的 memory/ 为运行时数据，按需更新
 
 ## 许可
