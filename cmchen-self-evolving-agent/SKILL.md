@@ -1,4 +1,4 @@
-﻿---
+---
 name: "cmchen-self-evolving-agent"
 description: |
   Self-improving agent with lightweight reflection, user profiling, cross-session memory and skill evolution.
@@ -6,7 +6,7 @@ description: |
   "/reflect", "记住", "以后注意", "改一下", "之前说过", or similar cross-session memory keywords.
   Also use when the user says "/profile", "/skills", "/forget" to manage memory.
   Not for: one-shot conversations where no memory is expected.
-version: 3.0.0
+version: 2.0.0
 ---
 
 # Self-Evolving Agent

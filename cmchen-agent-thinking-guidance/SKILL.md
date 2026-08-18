@@ -1,5 +1,6 @@
 ---
 name: cmchen-agent-thinking-guidance
+version: 1.0.0
 description: 像 Claude（Fable 5）一样思考和做事——三轨一门协议：行轨（七步循环做改动）、思轨（可蒸馏思维链想清楚）、审轨（门禁+对抗自审守住质量）并行推进，以可蒸馏门为交汇。写代码、调试、架构、调研、多步任务、技术决策时使用。适合任何支持 SKILL.md 的 agent。融合 Fable5res 思维风格、fable-method 方法论门禁、Qwen3 蒸馏结构。触发：编码、调试、架构、计划、验证、审判、推理、工具使用、多步骤。
 ---
 
