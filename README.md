@@ -8,11 +8,11 @@
 |--------|------|--------|
 | `cmchen-writing/` | 4.2 | 按 cmchen 本人风格写长文，六模式路由 |
 | `cmchen-learning/` | 5.0 | 回合制教学：讲得懂、记得住、能做题 |
-| `cmchen-blog-writing/` | 1.2 | PPT/PDF/讲义 → 博客 Markdown 文章 |
-| `cmchen-self-evolving-agent/` | 3.0 | 跨会话记忆与反思，轻量自我进化 |
+| `cmchen-blog-writing/` | 1.1 | PPT/PDF/讲义 → 博客 Markdown 文章 |
+| `cmchen-self-evolving-agent/` | 2.0 | 跨会话记忆与反思，轻量自我进化 |
 | `cmchen-security-scan/` | 1.1 | 自动化安全审计，只读扫描，无云依赖 |
 | `cmchen-agent-thinking-guidance/` | 1.0 | 三轨一门协议：像 Claude 一样思考与做事 |
-| `cmchen-political-writing/` | 3.0 | 高校政治类论文写作，五类型路由，活人感基调 |
+| `cmchen-political-writing/` | 1.0 | 高校政治类论文写作，五类型路由，活人感基调 |
 
 > 另有 `dsh适配/` 打包工程，把这些技能适配成 DeepSeek Harness 可安装的 bundle——多数场景直接用技能包目录即可，见下文「DSH 适配版」。
 
