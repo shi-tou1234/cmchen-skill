@@ -1,6 +1,7 @@
 ---
 name: cmchen-blog-writing
 version: 1.3.0
+description: 博客文章写作Skill。将 PPT / PDF / 讲义 / 教材截图 等学习素材（特别是电路分析、模电、数电等工科内容），按指定 Markdown 规范（Astro + KaTeX + Shiki）转换为结构化的博客文章。无图原则：所有图片内容用文字+公式准确描述。支持多文件合并为一篇文章。触发词：写博客、写成文章、写文章、整理笔记、转成博客、生成文章、博客输出、内容发布。
 ---
 
 # 博客文章写作 Skill
